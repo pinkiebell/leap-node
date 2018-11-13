@@ -7,7 +7,7 @@
 
 const { Outpoint } = require('leap-core');
 const isEqual = require('lodash/isEqual');
-
+const gte = require('lodash/gte');
 const { isNFT } = require('../../utils');
 
 const groupValuesByColor = (values, { color, value }) =>
@@ -29,7 +29,10 @@ const checkInsAndOuts = (tx, state, unspentFilter) => {
   const outsValues = tx.outputs.reduce(groupValuesByColor, {});
   const colors = Object.keys(insValues);
   for (const color of colors) {
-    if (!isEqual(insValues[color], outsValues[color])) {
+    if (
+      (isNFT(color) && !isEqual(insValues[color], outsValues[color])) ||
+      (!isNFT(color) && !gte(insValues[color], outsValues[color]))
+    ) {
       throw new Error(`Ins and outs values are mismatch for color ${color}`);
     }
   }

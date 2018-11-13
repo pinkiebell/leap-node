@@ -118,7 +118,7 @@ describe('applyTx utils', () => {
         [new Input(outpointERC721), new Input(outpointERC20)],
         [
           new Output(500, ADDR_1, colorERC721),
-          new Output(400, ADDR_1, colorERC20),
+          new Output(600, ADDR_1, colorERC20),
         ]
       ).signAll(PRIV_1);
       expect(() => {
