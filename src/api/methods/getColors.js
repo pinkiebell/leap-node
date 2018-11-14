@@ -1,9 +1,6 @@
 const { NFT_COLOR_BASE } = require('./constants');
 const { range } = require('../../utils');
 
-let erc20Tokens = [];
-let nftTokens = [];
-
 const getTokensRange = (bridgeState, from, to) => {
   return Promise.all(
     range(from, to - 1).map(i => bridgeState.contract.methods.tokens(i).call())
@@ -15,10 +12,10 @@ const getColors = async (bridgeState, nft = false) => {
     const tokenCount = Number(
       await bridgeState.contract.methods.nftTokenCount().call()
     );
-    if (tokenCount !== nftTokens.length) {
-      nftTokens = await getTokensRange(
+    if (tokenCount !== bridgeState.tokens.erc721.length) {
+      bridgeState.tokens.erc721 = await getTokensRange(
         bridgeState,
-        NFT_COLOR_BASE + nftTokens.length,
+        NFT_COLOR_BASE + bridgeState.tokens.erc721.length,
         NFT_COLOR_BASE + tokenCount
       );
     }
@@ -26,16 +23,16 @@ const getColors = async (bridgeState, nft = false) => {
     const tokenCount = Number(
       await bridgeState.contract.methods.erc20TokenCount().call()
     );
-    if (tokenCount !== erc20Tokens.length) {
-      erc20Tokens = await getTokensRange(
+    if (tokenCount !== bridgeState.tokens.erc20.length) {
+      bridgeState.tokens.erc20 = await getTokensRange(
         bridgeState,
-        erc20Tokens.length,
+        bridgeState.tokens.erc20.length,
         tokenCount
       );
     }
   }
 
-  return nft ? nftTokens : erc20Tokens;
+  return nft ? bridgeState.tokens.erc721 : bridgeState.tokens.erc20;
 };
 
 module.exports = getColors;

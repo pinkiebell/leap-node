@@ -7,6 +7,7 @@ const signatures = {
   tokenOfOwnerByIndex: '0x2f745c59000000000000000000000000',
   balanceOf: '0x70a08231000000000000000000000000',
 };
+const tokens = { erc20: [], erc721: [] };
 
 describe('executeCall', () => {
   test('tag != latest', async () => {
@@ -32,6 +33,7 @@ describe('executeCall', () => {
     const response = await executeCall(
       {
         contract,
+        tokens,
         currentState: {
           balances: {
             [NFT_COLOR_BASE]: {
@@ -63,6 +65,7 @@ describe('executeCall', () => {
       await executeCall(
         {
           contract,
+          tokens,
           currentState: {
             balances: {},
           },
@@ -87,6 +90,7 @@ describe('executeCall', () => {
       await executeCall(
         {
           contract,
+          tokens,
           currentState: {
             balances: {},
           },
@@ -109,6 +113,7 @@ describe('executeCall', () => {
     const response = await executeCall(
       {
         contract,
+        tokens,
         currentState: {
           balances: {
             0: {
@@ -134,6 +139,7 @@ describe('executeCall', () => {
     const response = await executeCall(
       {
         contract,
+        tokens,
         currentState: {
           balances: {},
         },
@@ -155,6 +161,7 @@ describe('executeCall', () => {
     const response = await executeCall(
       {
         contract,
+        tokens,
         currentState: {
           balances: {
             [NFT_COLOR_BASE]: {
@@ -180,6 +187,7 @@ describe('executeCall', () => {
     const response = await executeCall(
       {
         contract,
+        tokens,
         currentState: {
           balances: {},
         },
