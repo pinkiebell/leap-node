@@ -18,7 +18,7 @@ const getColors = async (bridgeState, nft = false) => {
     if (tokenCount !== nftTokens.length) {
       nftTokens = await getTokensRange(
         bridgeState,
-        NFT_COLOR_BASE,
+        NFT_COLOR_BASE + nftTokens.length,
         NFT_COLOR_BASE + tokenCount
       );
     }
@@ -27,7 +27,11 @@ const getColors = async (bridgeState, nft = false) => {
       await bridgeState.contract.methods.erc20TokenCount().call()
     );
     if (tokenCount !== erc20Tokens.length) {
-      erc20Tokens = await getTokensRange(bridgeState, 0, tokenCount);
+      erc20Tokens = await getTokensRange(
+        bridgeState,
+        erc20Tokens.length,
+        tokenCount
+      );
     }
   }
 
